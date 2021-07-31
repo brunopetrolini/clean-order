@@ -10,14 +10,14 @@ export default class Order {
     this.items = [];
   }
 
-  addItem(description: string, price: number, quantity: number) {
+  addItem(description: string, price: number, quantity: number): void {
     this.items.push(new OrderItem(description, price, quantity));
   }
 
-  getTotal() {
+  getTotal(): number {
     let total = 0;
     for (const orderItem of this.items) {
-      total += orderItem.price * orderItem.quantity;
+      total += orderItem.getItemTotal();
     }
     return total;
   }

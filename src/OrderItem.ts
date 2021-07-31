@@ -8,4 +8,8 @@ export default class OrderItem {
     this.price = price;
     this.quantity = quantity;
   }
+
+  getItemTotal(): number {
+    return this.price * this.quantity;
+  }
 }
