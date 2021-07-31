@@ -1,9 +1,25 @@
+import OrderItem from "./OrderItem";
+
 export default class Order {
   cpf: string;
+  items: OrderItem[];
 
   constructor(cpf: string) {
     if (!this.validate(cpf)) throw new Error("Invalid CPF");
     this.cpf = cpf;
+    this.items = [];
+  }
+
+  addItem(description: string, price: number, quantity: number) {
+    this.items.push(new OrderItem(description, price, quantity));
+  }
+
+  getTotal() {
+    let total = 0;
+    for (const orderItem of this.items) {
+      total += orderItem.price * orderItem.quantity;
+    }
+    return total;
   }
 
   FACTOR_DIGIT_1 = 10;
