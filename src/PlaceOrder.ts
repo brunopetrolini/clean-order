@@ -24,8 +24,10 @@ export default class PlaceOrder {
 
   execute(input: PlaceOrderInput): PlaceOrderOutput {
     const order = new Order(input.cpf);
-    for (const item of input.items) {
-      order.addItem(item.description, item.price, item.quantity);
+    for (const orderItem of input.items) {
+      const item = this.items.find((item) => item.id === orderItem.id);
+      if (!item) throw new Error("Item not found");
+      order.addItem(orderItem.id, item.price, orderItem.quantity);
     }
     if (input.coupon) {
       const coupon = this.coupons.find(

@@ -12,8 +12,8 @@ export default class Order {
     this.items = [];
   }
 
-  addItem(description: string, price: number, quantity: number): void {
-    this.items.push(new OrderItem(description, price, quantity));
+  addItem(id: string, price: number, quantity: number): void {
+    this.items.push(new OrderItem(id, price, quantity));
   }
 
   addCoupon(coupon: Coupon): void {

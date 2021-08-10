@@ -5,9 +5,9 @@ describe("PlaceOrder", () => {
     const input = {
       cpf: "778.278.412-36",
       items: [
-        { code: "1", quantity: 2 },
-        { code: "2", quantity: 1 },
-        { code: "3", quantity: 3 },
+        { id: "1", quantity: 2 },
+        { id: "2", quantity: 1 },
+        { id: "3", quantity: 3 },
       ],
       coupon: "VALE20",
     };
@@ -20,9 +20,9 @@ describe("PlaceOrder", () => {
     const input = {
       cpf: "778.278.412-36",
       items: [
-        { description: "Guitarra", price: 1000, quantity: 2 },
-        { description: "Amplificador", price: 5000, quantity: 1 },
-        { description: "Cabo", price: 30, quantity: 3 },
+        { id: "1", quantity: 2 },
+        { id: "2", quantity: 1 },
+        { id: "3", quantity: 3 },
       ],
       coupon: "VALE20_EXPIRED",
     };
