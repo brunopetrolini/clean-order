@@ -1,7 +1,18 @@
+import CouponRepositoryMemory from "./CouponRepositoryMemory";
 import ItemRepositoryMemory from "./ItemRepositoryMemory";
 import PlaceOrder from "./PlaceOrder";
 
 describe("PlaceOrder", () => {
+  let itemRepository: ItemRepositoryMemory;
+  let couponRepository: CouponRepositoryMemory;
+  let placeOrder: PlaceOrder;
+
+  beforeAll(() => {
+    itemRepository = new ItemRepositoryMemory();
+    couponRepository = new CouponRepositoryMemory();
+    placeOrder = new PlaceOrder(itemRepository, couponRepository);
+  });
+
   test("Should make a order ", () => {
     const input = {
       cpf: "778.278.412-36",
@@ -13,8 +24,6 @@ describe("PlaceOrder", () => {
       ],
       coupon: "VALE20",
     };
-    const itemRepository = new ItemRepositoryMemory();
-    const placeOrder = new PlaceOrder(itemRepository);
     const output = placeOrder.execute(input);
     expect(output.total).toBe(5982);
   });
@@ -30,8 +39,6 @@ describe("PlaceOrder", () => {
       ],
       coupon: "VALE20_EXPIRED",
     };
-    const itemRepository = new ItemRepositoryMemory();
-    const placeOrder = new PlaceOrder(itemRepository);
     const output = placeOrder.execute(input);
     expect(output.total).toBe(7400);
   });
@@ -47,8 +54,6 @@ describe("PlaceOrder", () => {
       ],
       coupon: "VALE20_EXPIRED",
     };
-    const itemRepository = new ItemRepositoryMemory();
-    const placeOrder = new PlaceOrder(itemRepository);
     const output = placeOrder.execute(input);
     expect(output.freight).toBe(310);
   });

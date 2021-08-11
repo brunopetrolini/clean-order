@@ -1,6 +1,5 @@
-import Coupon from "./Coupon";
+import CouponRepository from "./CouponRepository";
 import FreightCalculator from "./FreightCalculator";
-import Item from "./Item";
 import ItemRepository from "./ItemRepository";
 import Order from "./Order";
 import { PlaceOrderInput } from "./PlaceOrderInput";
@@ -9,15 +8,13 @@ import ZipcodeCalculatorAPI from "./ZipcodeCalculatorAPI";
 import ZipcodeCalculatorAPIMemory from "./ZipcodeCalculatorAPIMemory";
 
 export default class PlaceOrder {
-  coupons: Coupon[];
   orders: Order[];
   zipcodeCalculator: ZipcodeCalculatorAPI;
 
-  constructor(private readonly itemRepository: ItemRepository) {
-    this.coupons = [
-      new Coupon("VALE20", 20, new Date("2021-10-10")),
-      new Coupon("VALE20_EXPIRED", 20, new Date("2020-10-10")),
-    ];
+  constructor(
+    private readonly itemRepository: ItemRepository,
+    private readonly couponRepository: CouponRepository
+  ) {
     this.orders = [];
     this.zipcodeCalculator = new ZipcodeCalculatorAPIMemory();
   }
@@ -36,9 +33,7 @@ export default class PlaceOrder {
         FreightCalculator.calculate(distance, item) * orderItem.quantity;
     }
     if (input.coupon) {
-      const coupon = this.coupons.find(
-        (coupon) => coupon.code === input.coupon
-      );
+      const coupon = this.couponRepository.getByCode(input.coupon);
       if (coupon) order.addCoupon(coupon);
     }
     const total = order.getTotal();
