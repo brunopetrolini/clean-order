@@ -1,4 +1,4 @@
-export interface PlaceOrderInput {
+export default interface PlaceOrderInput {
   cpf: string;
   zipcode: string;
   items: any;

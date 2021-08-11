@@ -1,4 +1,4 @@
-export interface PlaceOrderOutput {
+export default interface PlaceOrderOutput {
   total: number;
   freight: number;
 }

@@ -3,8 +3,8 @@ import FreightCalculator from "./FreightCalculator";
 import ItemRepository from "./ItemRepository";
 import Order from "./Order";
 import OrderRepository from "./OrderRepository";
-import { PlaceOrderInput } from "./PlaceOrderInput";
-import { PlaceOrderOutput } from "./PlaceOrderOutput";
+import PlaceOrderInput from "./PlaceOrderInput";
+import PlaceOrderOutput from "./PlaceOrderOutput";
 import ZipcodeCalculatorAPI from "./ZipcodeCalculatorAPI";
 
 export default class PlaceOrder {
