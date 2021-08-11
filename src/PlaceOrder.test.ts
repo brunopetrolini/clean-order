@@ -1,3 +1,4 @@
+import ItemRepositoryMemory from "./ItemRepositoryMemory";
 import PlaceOrder from "./PlaceOrder";
 
 describe("PlaceOrder", () => {
@@ -12,7 +13,8 @@ describe("PlaceOrder", () => {
       ],
       coupon: "VALE20",
     };
-    const placeOrder = new PlaceOrder();
+    const itemRepository = new ItemRepositoryMemory();
+    const placeOrder = new PlaceOrder(itemRepository);
     const output = placeOrder.execute(input);
     expect(output.total).toBe(5982);
   });
@@ -28,7 +30,8 @@ describe("PlaceOrder", () => {
       ],
       coupon: "VALE20_EXPIRED",
     };
-    const placeOrder = new PlaceOrder();
+    const itemRepository = new ItemRepositoryMemory();
+    const placeOrder = new PlaceOrder(itemRepository);
     const output = placeOrder.execute(input);
     expect(output.total).toBe(7400);
   });
@@ -44,7 +47,8 @@ describe("PlaceOrder", () => {
       ],
       coupon: "VALE20_EXPIRED",
     };
-    const placeOrder = new PlaceOrder();
+    const itemRepository = new ItemRepositoryMemory();
+    const placeOrder = new PlaceOrder(itemRepository);
     const output = placeOrder.execute(input);
     expect(output.freight).toBe(310);
   });
