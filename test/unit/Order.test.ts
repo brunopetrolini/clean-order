@@ -1,5 +1,5 @@
-import Coupon from "./Coupon";
-import Order from "./Order";
+import Coupon from "../../src/Coupon";
+import Order from "../../src/Order";
 
 describe("Order", () => {
   test("Should do not create order with invalid CPF", () => {

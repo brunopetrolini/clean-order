@@ -1,4 +1,4 @@
-import Coupon from "./Coupon";
+import Coupon from "../../src/Coupon";
 
 describe("Coupon", () => {
   test("Should check if the coupon is expired", () => {
