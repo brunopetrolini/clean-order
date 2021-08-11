@@ -1,16 +1,23 @@
 import CouponRepositoryMemory from "./CouponRepositoryMemory";
 import ItemRepositoryMemory from "./ItemRepositoryMemory";
+import OrderRepositoryMemory from "./OrderRepositoryMemory";
 import PlaceOrder from "./PlaceOrder";
 
 describe("PlaceOrder", () => {
+  let orderRepository: OrderRepositoryMemory;
   let itemRepository: ItemRepositoryMemory;
   let couponRepository: CouponRepositoryMemory;
   let placeOrder: PlaceOrder;
 
   beforeAll(() => {
+    orderRepository = new OrderRepositoryMemory();
     itemRepository = new ItemRepositoryMemory();
     couponRepository = new CouponRepositoryMemory();
-    placeOrder = new PlaceOrder(itemRepository, couponRepository);
+    placeOrder = new PlaceOrder(
+      orderRepository,
+      itemRepository,
+      couponRepository
+    );
   });
 
   test("Should make a order ", () => {
