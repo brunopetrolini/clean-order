@@ -2,21 +2,25 @@ import CouponRepositoryMemory from "./CouponRepositoryMemory";
 import ItemRepositoryMemory from "./ItemRepositoryMemory";
 import OrderRepositoryMemory from "./OrderRepositoryMemory";
 import PlaceOrder from "./PlaceOrder";
+import ZipcodeCalculatorAPIMemory from "./ZipcodeCalculatorAPIMemory";
 
 describe("PlaceOrder", () => {
   let orderRepository: OrderRepositoryMemory;
   let itemRepository: ItemRepositoryMemory;
   let couponRepository: CouponRepositoryMemory;
+  let zipcodeCalculator: ZipcodeCalculatorAPIMemory;
   let placeOrder: PlaceOrder;
 
   beforeAll(() => {
     orderRepository = new OrderRepositoryMemory();
     itemRepository = new ItemRepositoryMemory();
     couponRepository = new CouponRepositoryMemory();
+    zipcodeCalculator = new ZipcodeCalculatorAPIMemory();
     placeOrder = new PlaceOrder(
       orderRepository,
       itemRepository,
-      couponRepository
+      couponRepository,
+      zipcodeCalculator
     );
   });
 

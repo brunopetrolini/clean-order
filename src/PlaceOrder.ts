@@ -6,18 +6,14 @@ import OrderRepository from "./OrderRepository";
 import { PlaceOrderInput } from "./PlaceOrderInput";
 import { PlaceOrderOutput } from "./PlaceOrderOutput";
 import ZipcodeCalculatorAPI from "./ZipcodeCalculatorAPI";
-import ZipcodeCalculatorAPIMemory from "./ZipcodeCalculatorAPIMemory";
 
 export default class PlaceOrder {
-  zipcodeCalculator: ZipcodeCalculatorAPI;
-
   constructor(
     private readonly orderRepository: OrderRepository,
     private readonly itemRepository: ItemRepository,
-    private readonly couponRepository: CouponRepository
-  ) {
-    this.zipcodeCalculator = new ZipcodeCalculatorAPIMemory();
-  }
+    private readonly couponRepository: CouponRepository,
+    private readonly zipcodeCalculator: ZipcodeCalculatorAPI
+  ) {}
 
   execute(input: PlaceOrderInput): PlaceOrderOutput {
     const order = new Order(input.cpf);
