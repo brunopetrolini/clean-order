@@ -1,4 +1,5 @@
 import Coupon from "./Coupon";
+import FreightCalculator from "./FreightCalculator";
 import Item from "./Item";
 import Order from "./Order";
 import { PlaceOrderInput } from "./PlaceOrderInput";
@@ -28,6 +29,8 @@ export default class PlaceOrder {
       const item = this.items.find((item) => item.id === orderItem.id);
       if (!item) throw new Error("Item not found");
       order.addItem(orderItem.id, item.price, orderItem.quantity);
+      order.freight +=
+        FreightCalculator.calculate(1000, item) * orderItem.quantity;
     }
     if (input.coupon) {
       const coupon = this.coupons.find(
@@ -37,6 +40,6 @@ export default class PlaceOrder {
     }
     const total = order.getTotal();
     this.orders.push(order);
-    return { total };
+    return { total, freight: order.freight };
   }
 }

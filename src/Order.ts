@@ -6,10 +6,12 @@ export default class Order {
   cpf: Cpf;
   items: OrderItem[];
   coupon?: Coupon;
+  freight: number;
 
   constructor(cpf: string) {
     this.cpf = new Cpf(cpf);
     this.items = [];
+    this.freight = 0;
   }
 
   addItem(id: string, price: number, quantity: number): void {
@@ -30,6 +32,7 @@ export default class Order {
     if (this.coupon) {
       total -= (total * this.coupon.percentage) / 100;
     }
+    total += this.freight;
     return total;
   }
 }
