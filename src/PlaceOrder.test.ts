@@ -4,6 +4,7 @@ describe("PlaceOrder", () => {
   test("Should make a order ", () => {
     const input = {
       cpf: "778.278.412-36",
+      zipcode: "37800-000",
       items: [
         { id: "1", quantity: 2 },
         { id: "2", quantity: 1 },
@@ -19,6 +20,7 @@ describe("PlaceOrder", () => {
   test("Should make a order with expired coupon", () => {
     const input = {
       cpf: "778.278.412-36",
+      zipcode: "37800-000",
       items: [
         { id: "1", quantity: 2 },
         { id: "2", quantity: 1 },
@@ -34,6 +36,7 @@ describe("PlaceOrder", () => {
   test("Should make a order with freight calculation", () => {
     const input = {
       cpf: "778.278.412-36",
+      zipcode: "37800-000",
       items: [
         { id: "1", quantity: 2 },
         { id: "2", quantity: 1 },

@@ -4,11 +4,14 @@ import Item from "./Item";
 import Order from "./Order";
 import { PlaceOrderInput } from "./PlaceOrderInput";
 import { PlaceOrderOutput } from "./PlaceOrderOutput";
+import ZipcodeCalculatorAPI from "./ZipcodeCalculatorAPI";
+import ZipcodeCalculatorAPIMemory from "./ZipcodeCalculatorAPIMemory";
 
 export default class PlaceOrder {
   coupons: Coupon[];
   items: Item[];
   orders: Order[];
+  zipcodeCalculator: ZipcodeCalculatorAPI;
 
   constructor() {
     this.coupons = [
@@ -21,16 +24,21 @@ export default class PlaceOrder {
       new Item("3", "Cabo", 30, 10, 10, 10, 1),
     ];
     this.orders = [];
+    this.zipcodeCalculator = new ZipcodeCalculatorAPIMemory();
   }
 
   execute(input: PlaceOrderInput): PlaceOrderOutput {
     const order = new Order(input.cpf);
+    const distance = this.zipcodeCalculator.calculate(
+      input.zipcode,
+      "37800-000"
+    );
     for (const orderItem of input.items) {
       const item = this.items.find((item) => item.id === orderItem.id);
       if (!item) throw new Error("Item not found");
       order.addItem(orderItem.id, item.price, orderItem.quantity);
       order.freight +=
-        FreightCalculator.calculate(1000, item) * orderItem.quantity;
+        FreightCalculator.calculate(distance, item) * orderItem.quantity;
     }
     if (input.coupon) {
       const coupon = this.coupons.find(
