@@ -1,5 +1,5 @@
-import FreightCalculator from "../../src/FreightCalculator";
-import Item from "../../src/Item";
+import Item from "../../src/domain/entity/Item";
+import FreightCalculator from "../../src/domain/service/FreightCalculator";
 
 describe("FreightCalculator", () => {
   test("Should calculate the freight of a guitar", () => {

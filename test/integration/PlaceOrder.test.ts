@@ -1,8 +1,8 @@
-import CouponRepositoryMemory from "../../src/CouponRepositoryMemory";
-import ItemRepositoryMemory from "../../src/ItemRepositoryMemory";
-import OrderRepositoryMemory from "../../src/OrderRepositoryMemory";
-import PlaceOrder from "../../src/PlaceOrder";
-import ZipcodeCalculatorAPIMemory from "../../src/ZipcodeCalculatorAPIMemory";
+import CouponRepositoryMemory from "../../src/infra/repository/memory/CouponRepositoryMemory";
+import PlaceOrder from "../../src/application/PlaceOrder";
+import ItemRepositoryMemory from "../../src/infra/repository/memory/ItemRepositoryMemory";
+import OrderRepositoryMemory from "../../src/infra/repository/memory/OrderRepositoryMemory";
+import ZipcodeCalculatorAPIMemory from "../../src/infra/gateway/memory/ZipcodeCalculatorAPIMemory";
 
 describe("PlaceOrder", () => {
   let orderRepository: OrderRepositoryMemory;

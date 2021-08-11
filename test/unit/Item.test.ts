@@ -1,4 +1,4 @@
-import Item from "../../src/Item";
+import Item from "../../src/domain/entity/Item";
 
 describe("Item", () => {
   test("Should calculate the volume of a item", () => {
