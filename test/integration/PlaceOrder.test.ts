@@ -1,19 +1,24 @@
 import CouponRepositoryMemory from "../../src/infra/repository/memory/CouponRepositoryMemory";
 import PlaceOrder from "../../src/application/PlaceOrder";
-import ItemRepositoryMemory from "../../src/infra/repository/memory/ItemRepositoryMemory";
 import OrderRepositoryMemory from "../../src/infra/repository/memory/OrderRepositoryMemory";
 import ZipcodeCalculatorAPIMemory from "../../src/infra/gateway/memory/ZipcodeCalculatorAPIMemory";
+import ItemRepositoryDatabase from "../../src/infra/repository/database/ItemRepositoryDatabase";
+import PgPromiseDatabase from "../../src/infra/database/PgPromiseDatabase";
+import ItemRepository from "../../src/domain/repository/ItemRepository";
+import ZipcodeCalculatorAPI from "../../src/domain/gateway/ZipcodeCalculatorAPI";
+import CouponRepository from "../../src/domain/repository/CouponRepository";
+import OrderRepository from "../../src/domain/repository/OrderRepository";
 
 describe("PlaceOrder", () => {
-  let orderRepository: OrderRepositoryMemory;
-  let itemRepository: ItemRepositoryMemory;
-  let couponRepository: CouponRepositoryMemory;
-  let zipcodeCalculator: ZipcodeCalculatorAPIMemory;
+  let itemRepository: ItemRepository;
+  let orderRepository: OrderRepository;
+  let couponRepository: CouponRepository;
+  let zipcodeCalculator: ZipcodeCalculatorAPI;
   let placeOrder: PlaceOrder;
 
   beforeAll(() => {
+    itemRepository = new ItemRepositoryDatabase(new PgPromiseDatabase());
     orderRepository = new OrderRepositoryMemory();
-    itemRepository = new ItemRepositoryMemory();
     couponRepository = new CouponRepositoryMemory();
     zipcodeCalculator = new ZipcodeCalculatorAPIMemory();
     placeOrder = new PlaceOrder(
@@ -24,7 +29,7 @@ describe("PlaceOrder", () => {
     );
   });
 
-  test("Should make a order ", () => {
+  test("Should make a order ", async () => {
     const input = {
       cpf: "778.278.412-36",
       zipcode: "37800-000",
@@ -35,11 +40,11 @@ describe("PlaceOrder", () => {
       ],
       coupon: "VALE20",
     };
-    const output = placeOrder.execute(input);
+    const output = await placeOrder.execute(input);
     expect(output.total).toBe(5982);
   });
 
-  test("Should make a order with expired coupon", () => {
+  test("Should make a order with expired coupon", async () => {
     const input = {
       cpf: "778.278.412-36",
       zipcode: "37800-000",
@@ -50,11 +55,11 @@ describe("PlaceOrder", () => {
       ],
       coupon: "VALE20_EXPIRED",
     };
-    const output = placeOrder.execute(input);
+    const output = await placeOrder.execute(input);
     expect(output.total).toBe(7400);
   });
 
-  test("Should make a order with freight calculation", () => {
+  test("Should make a order with freight calculation", async () => {
     const input = {
       cpf: "778.278.412-36",
       zipcode: "37800-000",
@@ -65,7 +70,7 @@ describe("PlaceOrder", () => {
       ],
       coupon: "VALE20_EXPIRED",
     };
-    const output = placeOrder.execute(input);
+    const output = await placeOrder.execute(input);
     expect(output.freight).toBe(310);
   });
 });
