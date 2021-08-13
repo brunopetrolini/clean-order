@@ -29,7 +29,7 @@ export default class PlaceOrder {
         FreightCalculator.calculate(distance, item) * orderItem.quantity;
     }
     if (input.coupon) {
-      const coupon = this.couponRepository.getByCode(input.coupon);
+      const coupon = await this.couponRepository.getByCode(input.coupon);
       if (coupon) order.addCoupon(coupon);
     }
     const total = order.getTotal();

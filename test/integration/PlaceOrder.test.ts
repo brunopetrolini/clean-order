@@ -8,18 +8,22 @@ import ItemRepository from "../../src/domain/repository/ItemRepository";
 import ZipcodeCalculatorAPI from "../../src/domain/gateway/ZipcodeCalculatorAPI";
 import CouponRepository from "../../src/domain/repository/CouponRepository";
 import OrderRepository from "../../src/domain/repository/OrderRepository";
+import CouponRepositoryDatabase from "../../src/infra/repository/database/CouponRepositoryDatabase";
+import Database from "../../src/infra/database/Database";
 
 describe("PlaceOrder", () => {
+  let pgPromiseDatabase: Database;
   let itemRepository: ItemRepository;
-  let orderRepository: OrderRepository;
   let couponRepository: CouponRepository;
+  let orderRepository: OrderRepository;
   let zipcodeCalculator: ZipcodeCalculatorAPI;
   let placeOrder: PlaceOrder;
 
   beforeAll(() => {
-    itemRepository = new ItemRepositoryDatabase(new PgPromiseDatabase());
+    pgPromiseDatabase = new PgPromiseDatabase();
+    itemRepository = new ItemRepositoryDatabase(pgPromiseDatabase);
+    couponRepository = new CouponRepositoryDatabase(pgPromiseDatabase);
     orderRepository = new OrderRepositoryMemory();
-    couponRepository = new CouponRepositoryMemory();
     zipcodeCalculator = new ZipcodeCalculatorAPIMemory();
     placeOrder = new PlaceOrder(
       orderRepository,
