@@ -15,8 +15,12 @@ export default class PlaceOrder {
     private readonly zipcodeCalculator: ZipcodeCalculatorAPI
   ) {}
 
-  async execute(input: PlaceOrderInput): Promise<PlaceOrderOutput> {
-    const order = new Order(input.cpf);
+  async execute({
+    issueDate = new Date(),
+    ...input
+  }: PlaceOrderInput): Promise<PlaceOrderOutput> {
+    const sequence = this.orderRepository.count() + 1;
+    const order = new Order(input.cpf, issueDate, sequence);
     const distance = this.zipcodeCalculator.calculate(
       input.zipcode,
       "37800-000"
@@ -34,6 +38,10 @@ export default class PlaceOrder {
     }
     const total = order.getTotal();
     this.orderRepository.save(order);
-    return { total, freight: order.freight };
+    return {
+      code: order.code,
+      total,
+      freight: order.freight,
+    };
   }
 }

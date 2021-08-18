@@ -3,4 +3,5 @@ export default interface PlaceOrderInput {
   zipcode: string;
   items: any;
   coupon: string;
+  issueDate?: Date;
 }

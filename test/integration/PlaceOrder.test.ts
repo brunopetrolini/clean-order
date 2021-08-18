@@ -8,7 +8,6 @@ import ItemRepository from "../../src/domain/repository/ItemRepository";
 import ZipcodeCalculatorAPI from "../../src/domain/gateway/ZipcodeCalculatorAPI";
 import CouponRepository from "../../src/domain/repository/CouponRepository";
 import OrderRepository from "../../src/domain/repository/OrderRepository";
-import CouponRepositoryDatabase from "../../src/infra/repository/database/CouponRepositoryDatabase";
 import Database from "../../src/infra/database/Database";
 
 describe("PlaceOrder", () => {
@@ -19,10 +18,10 @@ describe("PlaceOrder", () => {
   let zipcodeCalculator: ZipcodeCalculatorAPI;
   let placeOrder: PlaceOrder;
 
-  beforeAll(() => {
+  beforeEach(() => {
     pgPromiseDatabase = new PgPromiseDatabase();
     itemRepository = new ItemRepositoryDatabase(pgPromiseDatabase);
-    couponRepository = new CouponRepositoryDatabase(pgPromiseDatabase);
+    couponRepository = new CouponRepositoryMemory();
     orderRepository = new OrderRepositoryMemory();
     zipcodeCalculator = new ZipcodeCalculatorAPIMemory();
     placeOrder = new PlaceOrder(
@@ -76,5 +75,22 @@ describe("PlaceOrder", () => {
     };
     const output = await placeOrder.execute(input);
     expect(output.freight).toBe(310);
+  });
+
+  test("Should make a order calculating the code", async () => {
+    const input = {
+      cpf: "778.278.412-36",
+      zipcode: "37800-000",
+      items: [
+        { id: "1", quantity: 2 },
+        { id: "2", quantity: 1 },
+        { id: "3", quantity: 3 },
+      ],
+      issueDate: new Date("2021-10-10"),
+      coupon: "VALE20_EXPIRED",
+    };
+    await placeOrder.execute(input);
+    const output = await placeOrder.execute(input);
+    expect(output.code).toBe("202100000002");
   });
 });
