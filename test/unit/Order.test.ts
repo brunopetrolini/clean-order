@@ -46,6 +46,6 @@ describe("Order", () => {
     order.addItem("2", 5000, 1);
     order.addItem("3", 30, 3);
     order.addCoupon(new Coupon("VALE20", 20, new Date("2020-10-10")));
-    expect(order.code).toBe("202100000002");
+    expect(order.code.value).toBe("202100000002");
   });
 });

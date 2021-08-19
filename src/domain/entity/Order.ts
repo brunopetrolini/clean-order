@@ -1,5 +1,6 @@
 import Coupon from "./Coupon";
 import Cpf from "./Cpf";
+import OrderCode from "./OrderCode";
 import OrderItem from "./OrderItem";
 
 export default class Order {
@@ -7,7 +8,7 @@ export default class Order {
   items: OrderItem[];
   coupon?: Coupon;
   freight: number;
-  code: string;
+  code: OrderCode;
   issueDate: Date;
   sequence: number;
 
@@ -17,10 +18,7 @@ export default class Order {
     this.freight = 0;
     this.issueDate = issueDate;
     this.sequence = sequence;
-    this.code = `${this.issueDate.getFullYear()}${new String(sequence).padStart(
-      8,
-      "0"
-    )}`;
+    this.code = new OrderCode(issueDate, sequence);
   }
 
   addItem(id: string, price: number, quantity: number): void {
