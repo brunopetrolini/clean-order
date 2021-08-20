@@ -6,10 +6,14 @@ export default class CouponRepositoryDatabase implements CouponRepository {
   constructor(private readonly database: Database) {}
 
   async getByCode(code: string): Promise<Coupon | undefined> {
-    const coupon = await this.database.one(
+    const couponData = await this.database.one(
       "select * from ccca.coupon where code = $1",
       [code]
     );
-    return new Coupon(coupon.code, coupon.percentage, coupon.expire);
+    return new Coupon(
+      couponData.code,
+      couponData.percentage,
+      new Date(couponData.expire_date)
+    );
   }
 }

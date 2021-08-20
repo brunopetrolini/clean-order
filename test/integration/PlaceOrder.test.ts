@@ -9,6 +9,7 @@ import ZipcodeCalculatorAPI from "../../src/domain/gateway/ZipcodeCalculatorAPI"
 import CouponRepository from "../../src/domain/repository/CouponRepository";
 import OrderRepository from "../../src/domain/repository/OrderRepository";
 import Database from "../../src/infra/database/Database";
+import CouponRepositoryDatabase from "../../src/infra/repository/database/CouponRepositoryDatabase";
 
 describe("PlaceOrder", () => {
   let pgPromiseDatabase: Database;
@@ -21,7 +22,7 @@ describe("PlaceOrder", () => {
   beforeEach(() => {
     pgPromiseDatabase = PgPromiseDatabase.getInstance();
     itemRepository = new ItemRepositoryDatabase(pgPromiseDatabase);
-    couponRepository = new CouponRepositoryMemory();
+    couponRepository = new CouponRepositoryDatabase(pgPromiseDatabase);
     orderRepository = new OrderRepositoryMemory();
     zipcodeCalculator = new ZipcodeCalculatorAPIMemory();
     placeOrder = new PlaceOrder(
