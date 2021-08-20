@@ -19,7 +19,7 @@ export default class PlaceOrder {
     issueDate = new Date(),
     ...input
   }: PlaceOrderInput): Promise<PlaceOrderOutput> {
-    const sequence = this.orderRepository.count() + 1;
+    const sequence = (await this.orderRepository.count()) + 1;
     const order = new Order(input.cpf, issueDate, sequence);
     const distance = this.zipcodeCalculator.calculate(
       input.zipcode,

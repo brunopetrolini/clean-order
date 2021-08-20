@@ -1,6 +1,4 @@
-import CouponRepositoryMemory from "../../src/infra/repository/memory/CouponRepositoryMemory";
 import PlaceOrder from "../../src/application/PlaceOrder";
-import OrderRepositoryMemory from "../../src/infra/repository/memory/OrderRepositoryMemory";
 import ZipcodeCalculatorAPIMemory from "../../src/infra/gateway/memory/ZipcodeCalculatorAPIMemory";
 import ItemRepositoryDatabase from "../../src/infra/repository/database/ItemRepositoryDatabase";
 import PgPromiseDatabase from "../../src/infra/database/PgPromiseDatabase";
@@ -10,6 +8,7 @@ import CouponRepository from "../../src/domain/repository/CouponRepository";
 import OrderRepository from "../../src/domain/repository/OrderRepository";
 import Database from "../../src/infra/database/Database";
 import CouponRepositoryDatabase from "../../src/infra/repository/database/CouponRepositoryDatabase";
+import OrderRepositoryDatabase from "../../src/infra/repository/database/OrderRepositoryDatabase";
 
 describe("PlaceOrder", () => {
   let pgPromiseDatabase: Database;
@@ -23,7 +22,7 @@ describe("PlaceOrder", () => {
     pgPromiseDatabase = PgPromiseDatabase.getInstance();
     itemRepository = new ItemRepositoryDatabase(pgPromiseDatabase);
     couponRepository = new CouponRepositoryDatabase(pgPromiseDatabase);
-    orderRepository = new OrderRepositoryMemory();
+    orderRepository = new OrderRepositoryDatabase(pgPromiseDatabase);
     zipcodeCalculator = new ZipcodeCalculatorAPIMemory();
     placeOrder = new PlaceOrder(
       orderRepository,
@@ -92,6 +91,6 @@ describe("PlaceOrder", () => {
     };
     await placeOrder.execute(input);
     const output = await placeOrder.execute(input);
-    expect(output.code).toBe("202100000002");
+    expect(output.code).toBe("202100000004");
   });
 });
