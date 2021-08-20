@@ -19,7 +19,7 @@ describe("PlaceOrder", () => {
   let placeOrder: PlaceOrder;
 
   beforeEach(() => {
-    pgPromiseDatabase = new PgPromiseDatabase();
+    pgPromiseDatabase = PgPromiseDatabase.getInstance();
     itemRepository = new ItemRepositoryDatabase(pgPromiseDatabase);
     couponRepository = new CouponRepositoryMemory();
     orderRepository = new OrderRepositoryMemory();
