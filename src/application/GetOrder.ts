@@ -1,3 +1,4 @@
+import DatabaseRepositoryFactory from "../domain/factory/DatabaseRepositoryFactory";
 import ZipcodeCalculatorAPI from "../domain/gateway/ZipcodeCalculatorAPI";
 import CouponRepository from "../domain/repository/CouponRepository";
 import ItemRepository from "../domain/repository/ItemRepository";
@@ -5,10 +6,15 @@ import OrderRepository from "../domain/repository/OrderRepository";
 import GetOrderOutput from "./GetOrderOutput";
 
 export default class GetOrder {
-  constructor(
-    private readonly orderRepository: OrderRepository,
-    private readonly itemRepository: ItemRepository
-  ) {}
+  itemRepository: ItemRepository;
+  couponRepository: CouponRepository;
+  orderRepository: OrderRepository;
+
+  constructor(databaseRepositoryFactory: DatabaseRepositoryFactory) {
+    this.itemRepository = databaseRepositoryFactory.createItemRepository();
+    this.couponRepository = databaseRepositoryFactory.createCouponRepository();
+    this.orderRepository = databaseRepositoryFactory.createOrderRepository();
+  }
 
   async execute(code: string): Promise<GetOrderOutput> {
     const order = await this.orderRepository.get(code);

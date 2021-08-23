@@ -6,14 +6,23 @@ import CouponRepository from "../domain/repository/CouponRepository";
 import ItemRepository from "../domain/repository/ItemRepository";
 import OrderRepository from "../domain/repository/OrderRepository";
 import FreightCalculator from "../domain/service/FreightCalculator";
+import DatabaseRepositoryFactory from "../domain/factory/DatabaseRepositoryFactory";
 
 export default class PlaceOrder {
+  orderRepository: OrderRepository;
+  itemRepository: ItemRepository;
+  couponRepository: CouponRepository;
+  zipcodeCalculator: ZipcodeCalculatorAPI;
+
   constructor(
-    private readonly orderRepository: OrderRepository,
-    private readonly itemRepository: ItemRepository,
-    private readonly couponRepository: CouponRepository,
-    private readonly zipcodeCalculator: ZipcodeCalculatorAPI
-  ) {}
+    databaseRepositoryFactory: DatabaseRepositoryFactory,
+    zipcodeCalculator: ZipcodeCalculatorAPI
+  ) {
+    this.orderRepository = databaseRepositoryFactory.createOrderRepository();
+    this.itemRepository = databaseRepositoryFactory.createItemRepository();
+    this.couponRepository = databaseRepositoryFactory.createCouponRepository();
+    this.zipcodeCalculator = zipcodeCalculator;
+  }
 
   async execute({
     issueDate = new Date(),

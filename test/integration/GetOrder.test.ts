@@ -1,40 +1,22 @@
 import GetOrder from "../../src/application/GetOrder";
 import PlaceOrder from "../../src/application/PlaceOrder";
+import DatabaseRepositoryFactory from "../../src/domain/factory/DatabaseRepositoryFactory";
 import ZipcodeCalculatorAPI from "../../src/domain/gateway/ZipcodeCalculatorAPI";
-import CouponRepository from "../../src/domain/repository/CouponRepository";
-import ItemRepository from "../../src/domain/repository/ItemRepository";
-import OrderRepository from "../../src/domain/repository/OrderRepository";
-import Database from "../../src/infra/database/Database";
-import PgPromiseDatabase from "../../src/infra/database/PgPromiseDatabase";
+import MemoryRepositoryFactory from "../../src/infra/factory/MemoryRepositoryFactory";
 import ZipcodeCalculatorAPIMemory from "../../src/infra/gateway/memory/ZipcodeCalculatorAPIMemory";
-import CouponRepositoryDatabase from "../../src/infra/repository/database/CouponRepositoryDatabase";
-import ItemRepositoryDatabase from "../../src/infra/repository/database/ItemRepositoryDatabase";
-import OrderRepositoryDatabase from "../../src/infra/repository/database/OrderRepositoryDatabase";
-import CouponRepositoryMemory from "../../src/infra/repository/memory/CouponRepositoryMemory";
-import OrderRepositoryMemory from "../../src/infra/repository/memory/OrderRepositoryMemory";
 
 describe("GetOrder", () => {
-  let pgPromiseDatabase: Database;
-  let itemRepository: ItemRepository;
-  let couponRepository: CouponRepository;
-  let orderRepository: OrderRepository;
   let zipcodeCalculator: ZipcodeCalculatorAPI;
   let placeOrder: PlaceOrder;
   let getOrder: GetOrder;
 
+  let databaseRepositoryFactory: DatabaseRepositoryFactory;
+
   beforeEach(() => {
-    pgPromiseDatabase = PgPromiseDatabase.getInstance();
-    itemRepository = new ItemRepositoryDatabase(pgPromiseDatabase);
-    couponRepository = new CouponRepositoryDatabase(pgPromiseDatabase);
-    orderRepository = new OrderRepositoryDatabase(pgPromiseDatabase);
+    databaseRepositoryFactory = new MemoryRepositoryFactory();
     zipcodeCalculator = new ZipcodeCalculatorAPIMemory();
-    placeOrder = new PlaceOrder(
-      orderRepository,
-      itemRepository,
-      couponRepository,
-      zipcodeCalculator
-    );
-    getOrder = new GetOrder(orderRepository, itemRepository);
+    placeOrder = new PlaceOrder(databaseRepositoryFactory, zipcodeCalculator);
+    getOrder = new GetOrder(databaseRepositoryFactory);
   });
 
   test("Should to get a purchase order", async () => {

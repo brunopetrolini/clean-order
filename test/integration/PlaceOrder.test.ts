@@ -1,35 +1,18 @@
 import PlaceOrder from "../../src/application/PlaceOrder";
 import ZipcodeCalculatorAPIMemory from "../../src/infra/gateway/memory/ZipcodeCalculatorAPIMemory";
-import ItemRepositoryDatabase from "../../src/infra/repository/database/ItemRepositoryDatabase";
-import PgPromiseDatabase from "../../src/infra/database/PgPromiseDatabase";
-import ItemRepository from "../../src/domain/repository/ItemRepository";
 import ZipcodeCalculatorAPI from "../../src/domain/gateway/ZipcodeCalculatorAPI";
-import CouponRepository from "../../src/domain/repository/CouponRepository";
-import OrderRepository from "../../src/domain/repository/OrderRepository";
-import Database from "../../src/infra/database/Database";
-import CouponRepositoryDatabase from "../../src/infra/repository/database/CouponRepositoryDatabase";
-import OrderRepositoryDatabase from "../../src/infra/repository/database/OrderRepositoryDatabase";
+import DatabaseRepositoryFactory from "../../src/domain/factory/DatabaseRepositoryFactory";
+import MemoryRepositoryFactory from "../../src/infra/factory/MemoryRepositoryFactory";
 
 describe("PlaceOrder", () => {
-  let pgPromiseDatabase: Database;
-  let itemRepository: ItemRepository;
-  let couponRepository: CouponRepository;
-  let orderRepository: OrderRepository;
   let zipcodeCalculator: ZipcodeCalculatorAPI;
   let placeOrder: PlaceOrder;
+  let databaseRepositoryFactory: DatabaseRepositoryFactory;
 
   beforeEach(() => {
-    pgPromiseDatabase = PgPromiseDatabase.getInstance();
-    itemRepository = new ItemRepositoryDatabase(pgPromiseDatabase);
-    couponRepository = new CouponRepositoryDatabase(pgPromiseDatabase);
-    orderRepository = new OrderRepositoryDatabase(pgPromiseDatabase);
+    databaseRepositoryFactory = new MemoryRepositoryFactory();
     zipcodeCalculator = new ZipcodeCalculatorAPIMemory();
-    placeOrder = new PlaceOrder(
-      orderRepository,
-      itemRepository,
-      couponRepository,
-      zipcodeCalculator
-    );
+    placeOrder = new PlaceOrder(databaseRepositoryFactory, zipcodeCalculator);
   });
 
   test("Should make a order ", async () => {
@@ -89,6 +72,8 @@ describe("PlaceOrder", () => {
       issueDate: new Date("2021-10-10"),
       coupon: "VALE20_EXPIRED",
     };
+    const orderRepository = databaseRepositoryFactory.createOrderRepository();
+    orderRepository.clean();
     await placeOrder.execute(input);
     const output = await placeOrder.execute(input);
     expect(output.code).toBe("202100000002");
