@@ -19,6 +19,10 @@ export default class OrderRepositoryMemory implements OrderRepository {
   }
 
   async count(): Promise<number> {
-    return Promise.resolve(this.orders.length);
+    return this.orders.length;
+  }
+
+  async clean(): Promise<void> {
+    Promise.resolve((this.orders = []));
   }
 }

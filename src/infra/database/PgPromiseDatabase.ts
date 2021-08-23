@@ -25,4 +25,8 @@ export default class PgPromiseDatabase implements Database {
   one(query: string, parameters: any) {
     return this.postgres.oneOrNone(query, parameters);
   }
+
+  none(query: string, parameters: any): void {
+    return this.postgres.none(query, parameters);
+  }
 }

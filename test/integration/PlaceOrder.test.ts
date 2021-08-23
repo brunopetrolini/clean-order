@@ -91,6 +91,6 @@ describe("PlaceOrder", () => {
     };
     await placeOrder.execute(input);
     const output = await placeOrder.execute(input);
-    expect(output.code).toBe("202100000004");
+    expect(output.code).toBe("202100000002");
   });
 });

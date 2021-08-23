@@ -7,7 +7,9 @@ import OrderRepository from "../../src/domain/repository/OrderRepository";
 import Database from "../../src/infra/database/Database";
 import PgPromiseDatabase from "../../src/infra/database/PgPromiseDatabase";
 import ZipcodeCalculatorAPIMemory from "../../src/infra/gateway/memory/ZipcodeCalculatorAPIMemory";
+import CouponRepositoryDatabase from "../../src/infra/repository/database/CouponRepositoryDatabase";
 import ItemRepositoryDatabase from "../../src/infra/repository/database/ItemRepositoryDatabase";
+import OrderRepositoryDatabase from "../../src/infra/repository/database/OrderRepositoryDatabase";
 import CouponRepositoryMemory from "../../src/infra/repository/memory/CouponRepositoryMemory";
 import OrderRepositoryMemory from "../../src/infra/repository/memory/OrderRepositoryMemory";
 
@@ -23,8 +25,8 @@ describe("GetOrder", () => {
   beforeEach(() => {
     pgPromiseDatabase = PgPromiseDatabase.getInstance();
     itemRepository = new ItemRepositoryDatabase(pgPromiseDatabase);
-    couponRepository = new CouponRepositoryMemory();
-    orderRepository = new OrderRepositoryMemory();
+    couponRepository = new CouponRepositoryDatabase(pgPromiseDatabase);
+    orderRepository = new OrderRepositoryDatabase(pgPromiseDatabase);
     zipcodeCalculator = new ZipcodeCalculatorAPIMemory();
     placeOrder = new PlaceOrder(
       orderRepository,

@@ -74,4 +74,9 @@ export default class OrderRepositoryDatabase implements OrderRepository {
     );
     return countData.count;
   }
+
+  async clean(): Promise<void> {
+    await this.database.none("delete from ccca.order", []);
+    await this.database.none("delete from ccca.order_item", []);
+  }
 }
