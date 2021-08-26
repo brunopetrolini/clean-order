@@ -1,12 +1,12 @@
 {
   "name": "clean-project",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "main.js",
   "license": "MIT",
   "scripts": {
     "build": "tsc",
     "test": "tsc && jest dist/ --forceExit",
-    "start": "tsc && node dist/src/infra/http/express.js"
+    "start": "tsc && node dist/src/main.js"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
