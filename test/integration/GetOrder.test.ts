@@ -9,7 +9,6 @@ describe("GetOrder", () => {
   let zipcodeCalculator: ZipcodeCalculatorAPI;
   let placeOrder: PlaceOrder;
   let getOrder: GetOrder;
-
   let databaseRepositoryFactory: DatabaseRepositoryFactory;
 
   beforeEach(() => {
