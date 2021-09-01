@@ -1,5 +1,5 @@
-import GetOrder from "../../src/application/GetOrder";
-import PlaceOrder from "../../src/application/PlaceOrder";
+import GetOrder from "../../src/application/get-order/GetOrder";
+import PlaceOrder from "../../src/application/place-order/PlaceOrder";
 import DatabaseRepositoryFactory from "../../src/domain/factory/DatabaseRepositoryFactory";
 import ZipcodeCalculatorAPI from "../../src/domain/gateway/ZipcodeCalculatorAPI";
 import MemoryRepositoryFactory from "../../src/infra/factory/MemoryRepositoryFactory";

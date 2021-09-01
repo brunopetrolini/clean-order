@@ -1,8 +1,8 @@
-import DatabaseRepositoryFactory from "../domain/factory/DatabaseRepositoryFactory";
-import ZipcodeCalculatorAPI from "../domain/gateway/ZipcodeCalculatorAPI";
-import CouponRepository from "../domain/repository/CouponRepository";
-import ItemRepository from "../domain/repository/ItemRepository";
-import OrderRepository from "../domain/repository/OrderRepository";
+import DatabaseRepositoryFactory from "../../domain/factory/DatabaseRepositoryFactory";
+import ZipcodeCalculatorAPI from "../../domain/gateway/ZipcodeCalculatorAPI";
+import CouponRepository from "../../domain/repository/CouponRepository";
+import ItemRepository from "../../domain/repository/ItemRepository";
+import OrderRepository from "../../domain/repository/OrderRepository";
 import GetOrderOutput from "./GetOrderOutput";
 
 export default class GetOrder {

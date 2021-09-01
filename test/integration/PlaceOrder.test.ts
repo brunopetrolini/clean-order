@@ -1,8 +1,8 @@
-import PlaceOrder from "../../src/application/PlaceOrder";
 import ZipcodeCalculatorAPIMemory from "../../src/infra/gateway/memory/ZipcodeCalculatorAPIMemory";
 import ZipcodeCalculatorAPI from "../../src/domain/gateway/ZipcodeCalculatorAPI";
 import DatabaseRepositoryFactory from "../../src/domain/factory/DatabaseRepositoryFactory";
 import MemoryRepositoryFactory from "../../src/infra/factory/MemoryRepositoryFactory";
+import PlaceOrder from "../../src/application/place-order/PlaceOrder";
 
 describe("PlaceOrder", () => {
   let zipcodeCalculator: ZipcodeCalculatorAPI;
