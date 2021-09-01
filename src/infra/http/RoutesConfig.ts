@@ -1,5 +1,7 @@
 import GetOrder from "../../application/GetOrder";
+import PlaceOrder from "../../application/PlaceOrder";
 import DatabaseRepositoryFactory from "../../domain/factory/DatabaseRepositoryFactory";
+import ZipcodeCalculatorAPIMemory from "../gateway/memory/ZipcodeCalculatorAPIMemory";
 import Http from "./Http";
 
 export default class RoutesConfig {
@@ -12,6 +14,15 @@ export default class RoutesConfig {
     this.http.on("get", "/orders/${code}", async (params: any, body: any) => {
       const getOrder = new GetOrder(this.databaseRepositoryFactory);
       const order = await getOrder.execute(params.code);
+      return order;
+    });
+
+    this.http.on("get", "/orders/${code}", async (params: any, body: any) => {
+      const getOrder = new PlaceOrder(
+        this.databaseRepositoryFactory,
+        new ZipcodeCalculatorAPIMemory()
+      );
+      const order = await getOrder.execute(body);
       return order;
     });
   }
