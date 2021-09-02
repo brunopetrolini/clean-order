@@ -1,14 +1,10 @@
-import Item from "../entity/Item";
+import TaxTable from "../entity/TaxTable";
 import TaxCalculator from "./TaxCalculator";
 
 export default class DefaultTaxCalculator extends TaxCalculator {
-  getTax(item: Item): number {
-    if (item.description === "Guitarra") {
-      return 15;
-    }
-    if (item.description === "Cabo") {
-      return 5;
-    }
-    return 0;
+  getTax(taxTables: TaxTable[]): number {
+    const taxTable = taxTables.find((taxTable) => taxTable.type === "default");
+    if (!taxTable) return 0;
+    return taxTable.value;
   }
 }
