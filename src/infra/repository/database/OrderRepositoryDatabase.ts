@@ -12,7 +12,7 @@ export default class OrderRepositoryDatabase implements OrderRepository {
 
   async save(order: Order): Promise<void> {
     const orderData = await this.database.one(
-      "insert into ccca.order (coupon_code, code, cpf, issue_date, freight, serial) values ($1, $2, $3, $4, $5, $6) returning *",
+      "insert into ccca.order (coupon_code, code, cpf, issue_date, freight, serial, taxes) values ($1, $2, $3, $4, $5, $6, $7) returning *",
       [
         order.coupon?.code,
         order.code.value,
@@ -20,6 +20,7 @@ export default class OrderRepositoryDatabase implements OrderRepository {
         order.issueDate,
         order.freight,
         order.sequence,
+        order.taxes,
       ]
     );
     for (const orderItem of order.items) {
