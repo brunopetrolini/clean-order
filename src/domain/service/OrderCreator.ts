@@ -9,7 +9,7 @@ import OrderRepository from "../repository/OrderRepository";
 import TaxTableRepository from "../repository/TaxTableRepository";
 import FreightCalculator from "./FreightCalculator";
 
-export default class OrderService {
+export default class OrderCreator {
   orderRepository: OrderRepository;
   itemRepository: ItemRepository;
   couponRepository: CouponRepository;

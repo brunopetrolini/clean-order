@@ -1,6 +1,6 @@
 import DatabaseRepositoryFactory from "../../domain/factory/DatabaseRepositoryFactory";
 import ZipcodeCalculatorAPI from "../../domain/gateway/ZipcodeCalculatorAPI";
-import OrderService from "../../domain/service/OrderService";
+import OrderCreator from "../../domain/service/OrderCreator";
 import PlaceOrderInput from "./PlaceOrderInput";
 import PlaceOrderOutput from "./PlaceOrderOutput";
 
@@ -17,7 +17,7 @@ export default class PlaceOrder {
   }
 
   async execute(input: PlaceOrderInput): Promise<PlaceOrderOutput> {
-    const orderService = new OrderService(
+    const orderService = new OrderCreator(
       this.databaseRepositoryFactory,
       this.zipcodeCalculator
     );
