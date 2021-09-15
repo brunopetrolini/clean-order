@@ -1,5 +1,6 @@
 import PlaceOrderInput from "../../application/place-order/PlaceOrderInput";
 import Order from "../entity/Order";
+import StockEntry from "../entity/StockEntry";
 import DatabaseRepositoryFactory from "../factory/DatabaseRepositoryFactory";
 import TaxCalculatorFactory from "../factory/TaxCalculatorFactory";
 import ZipcodeCalculatorAPI from "../gateway/ZipcodeCalculatorAPI";
@@ -9,6 +10,7 @@ import OrderRepository from "../repository/OrderRepository";
 import StockEntryRepository from "../repository/StockEntryRepository";
 import TaxTableRepository from "../repository/TaxTableRepository";
 import FreightCalculator from "./FreightCalculator";
+import StockCalculator from "./StockCalculator";
 
 export default class OrderCreator {
   orderRepository: OrderRepository;
@@ -32,6 +34,7 @@ export default class OrderCreator {
     const order = new Order(input.cpf, issueDate, sequence);
     const distance = this.zipcodeCalculator.calculate(input.zipcode, "37800-000");
     const taxCalculator = TaxCalculatorFactory.create(issueDate);
+    const stockCalculator = new StockCalculator();
     for (const orderItem of input.items) {
       const item = await this.itemRepository.getById(orderItem.id);
       if (!item) throw new Error("Item not found");
@@ -41,6 +44,9 @@ export default class OrderCreator {
       const taxes = taxCalculator.calculate(item, taxTables);
       order.taxes += taxes * orderItem.quantity;
       const stockEntries = await this.stockEntryRepository.getByIdItem(item.id);
+      const quantity = stockCalculator.calculate(stockEntries);
+      if (quantity < orderItem.quantity) throw new Error("Out of stock");
+      this.stockEntryRepository.save(new StockEntry(item.id, "out", orderItem.quantity, new Date()));
     }
     if (input.coupon) {
       const coupon = await this.couponRepository.getByCode(input.coupon);

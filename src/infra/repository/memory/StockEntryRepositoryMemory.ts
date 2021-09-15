@@ -1,9 +1,7 @@
 import StockEntry from "../../../domain/entity/StockEntry";
 import StockEntryRepository from "../../../domain/repository/StockEntryRepository";
 
-export default class StockEntryRepositoryMemory
-  implements StockEntryRepository
-{
+export default class StockEntryRepositoryMemory implements StockEntryRepository {
   stockEntries: StockEntry[];
 
   constructor() {
@@ -15,8 +13,14 @@ export default class StockEntryRepositoryMemory
   }
 
   async getByIdItem(idItem: number): Promise<StockEntry[]> {
-    return Promise.resolve(
-      this.stockEntries.filter((stockEntry) => stockEntry.idItem === idItem)
-    );
+    return Promise.resolve(this.stockEntries.filter((stockEntry) => stockEntry.idItem === idItem));
+  }
+
+  async save(stockEntry: StockEntry): Promise<void> {
+    Promise.resolve(this.stockEntries.push(stockEntry));
+  }
+
+  async clean(): Promise<void> {
+    Promise.resolve((this.stockEntries = this.stockEntries.filter((stockEntry) => stockEntry.operation === "in")));
   }
 }

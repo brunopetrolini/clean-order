@@ -9,10 +9,12 @@ describe("PlaceOrder", () => {
   let placeOrder: PlaceOrder;
   let databaseRepositoryFactory: DatabaseRepositoryFactory;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     databaseRepositoryFactory = new MemoryRepositoryFactory();
     zipcodeCalculator = new ZipcodeCalculatorAPIMemory();
     placeOrder = new PlaceOrder(databaseRepositoryFactory, zipcodeCalculator);
+    const stockEntryRepository = databaseRepositoryFactory.createStockEntryRepository();
+    await stockEntryRepository.clean();
   });
 
   test("Should make a order ", async () => {
@@ -95,7 +97,7 @@ describe("PlaceOrder", () => {
     expect(output.taxes).toBe(1054.5);
   });
 
-  test.skip("Should not be possible to order an item without stock ", async () => {
+  test("Should not be possible to order an item without stock ", async () => {
     const input = {
       cpf: "778.278.412-36",
       zipcode: "37800-000",

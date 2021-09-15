@@ -11,11 +11,13 @@ describe("GetOrder", () => {
   let getOrder: GetOrder;
   let databaseRepositoryFactory: DatabaseRepositoryFactory;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     databaseRepositoryFactory = new MemoryRepositoryFactory();
     zipcodeCalculator = new ZipcodeCalculatorAPIMemory();
     placeOrder = new PlaceOrder(databaseRepositoryFactory, zipcodeCalculator);
     getOrder = new GetOrder(databaseRepositoryFactory);
+    const stockEntryRepository = databaseRepositoryFactory.createStockEntryRepository();
+    await stockEntryRepository.clean();
   });
 
   test("Should to get a purchase order", async () => {
