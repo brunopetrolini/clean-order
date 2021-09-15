@@ -23,7 +23,7 @@ export default class Order {
     this.code = new OrderCode(issueDate, sequence);
   }
 
-  addItem(id: string, price: number, quantity: number): void {
+  addItem(id: number, price: number, quantity: number): void {
     this.items.push(new OrderItem(id, price, quantity));
   }
 

@@ -1,5 +1,5 @@
 export default class Item {
-  id: string;
+  id: number;
   description: string;
   price: number;
   width: number;
@@ -8,7 +8,7 @@ export default class Item {
   weight: number;
 
   constructor(
-    id: string,
+    id: number,
     description: string,
     price: number,
     width: number,

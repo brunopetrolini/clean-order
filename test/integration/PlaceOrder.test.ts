@@ -20,9 +20,9 @@ describe("PlaceOrder", () => {
       cpf: "778.278.412-36",
       zipcode: "37800-000",
       items: [
-        { id: "1", quantity: 2 },
-        { id: "2", quantity: 1 },
-        { id: "3", quantity: 3 },
+        { id: 1, quantity: 2 },
+        { id: 2, quantity: 1 },
+        { id: 3, quantity: 3 },
       ],
       coupon: "VALE20",
     };
@@ -35,9 +35,9 @@ describe("PlaceOrder", () => {
       cpf: "778.278.412-36",
       zipcode: "37800-000",
       items: [
-        { id: "1", quantity: 2 },
-        { id: "2", quantity: 1 },
-        { id: "3", quantity: 3 },
+        { id: 1, quantity: 2 },
+        { id: 2, quantity: 1 },
+        { id: 3, quantity: 3 },
       ],
       coupon: "VALE20_EXPIRED",
     };
@@ -50,9 +50,9 @@ describe("PlaceOrder", () => {
       cpf: "778.278.412-36",
       zipcode: "37800-000",
       items: [
-        { id: "1", quantity: 2 },
-        { id: "2", quantity: 1 },
-        { id: "3", quantity: 3 },
+        { id: 1, quantity: 2 },
+        { id: 2, quantity: 1 },
+        { id: 3, quantity: 3 },
       ],
       coupon: "VALE20_EXPIRED",
     };
@@ -65,9 +65,9 @@ describe("PlaceOrder", () => {
       cpf: "778.278.412-36",
       zipcode: "37800-000",
       items: [
-        { id: "1", quantity: 2 },
-        { id: "2", quantity: 1 },
-        { id: "3", quantity: 3 },
+        { id: 1, quantity: 2 },
+        { id: 2, quantity: 1 },
+        { id: 3, quantity: 3 },
       ],
       issueDate: new Date("2021-10-10"),
       coupon: "VALE20_EXPIRED",
@@ -84,14 +84,24 @@ describe("PlaceOrder", () => {
       cpf: "778.278.412-36",
       zipcode: "37800-000",
       items: [
-        { id: "1", quantity: 2 },
-        { id: "2", quantity: 1 },
-        { id: "3", quantity: 3 },
+        { id: 1, quantity: 2 },
+        { id: 2, quantity: 1 },
+        { id: 3, quantity: 3 },
       ],
       coupon: "VALE20",
     };
     const output = await placeOrder.execute(input);
     expect(output.total).toBe(5982);
     expect(output.taxes).toBe(1054.5);
+  });
+
+  test.skip("Should not be possible to order an item without stock ", async () => {
+    const input = {
+      cpf: "778.278.412-36",
+      zipcode: "37800-000",
+      items: [{ id: 1, quantity: 12 }],
+      coupon: "VALE20",
+    };
+    await expect(placeOrder.execute(input)).rejects.toThrow(new Error("Out of stock"));
   });
 });

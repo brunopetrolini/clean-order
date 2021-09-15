@@ -5,20 +5,11 @@ import Database from "../../database/Database";
 export default class TaxTableRepositoryDatabase implements TaxTableRepository {
   constructor(private readonly database: Database) {}
 
-  async getByIdItem(idItem: string): Promise<TaxTable[]> {
-    const taxTablesData = await this.database.many(
-      "select * from ccca.tax_table where id_item = $1",
-      [idItem]
-    );
+  async getByIdItem(idItem: number): Promise<TaxTable[]> {
+    const taxTablesData = await this.database.many("select * from ccca.tax_table where id_item = $1", [idItem]);
     const taxTables = [];
     for (const taxTableData of taxTablesData) {
-      taxTables.push(
-        new TaxTable(
-          taxTableData.id_item,
-          taxTableData.type,
-          parseFloat(taxTableData.value)
-        )
-      );
+      taxTables.push(new TaxTable(taxTableData.id_item, taxTableData.type, parseFloat(taxTableData.value)));
     }
     return taxTables;
   }
