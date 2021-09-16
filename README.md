@@ -1,6 +1,8 @@
 # Clean Order
 
-## :warning: Requisitos
+Criador de pedidos (baseado no conceito de e-commerce) desenvolvido com uso de conceitos de Clean Code, Clean Architecture, TDD e DDD
+
+## ❗ Requisitos
 
 Abaixo segue algum recursos necessários para que o projeto seja executado:
 
@@ -8,11 +10,11 @@ Abaixo segue algum recursos necessários para que o projeto seja executado:
 - [Node.js](https://nodejs.org/en/download/)
 - [Yarn](https://classic.yarnpkg.com/en/docs/install/#debian-stable)
 
-## Configurando a execução do projeto
+## 📦 Configurando a execução do projeto
 
 Com os requisitos instalados em sua máquina vamos iniciar o setup do projeto
 
-### Clonando o repositório
+### ⬇️ Clonando o repositório
 
 Para baixar o projeto em sua máquina e deixa-lo a ponto de execução é muito simples, basta seguir os passos abaixo:
 
@@ -33,7 +35,7 @@ $ yarn
 
 Com o término da instalação o projeto estará quase pronto para ser executado.
 
-### Instalando o Postgres com Docker
+### 🗃️ Instalando o Postgres com Docker
 
 O projeto está configurado para utilizar o postgres a partir de um container, por isso vamos agr criar esse container:
 
