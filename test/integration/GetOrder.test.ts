@@ -1,38 +1,37 @@
-import GetOrder from "../../src/application/get-order/GetOrder";
 import PlaceOrder from "../../src/application/place-order/PlaceOrder";
-import DatabaseRepositoryFactory from "../../src/domain/factory/DatabaseRepositoryFactory";
-import ZipcodeCalculatorAPI from "../../src/domain/gateway/ZipcodeCalculatorAPI";
-import MemoryRepositoryFactory from "../../src/infra/factory/MemoryRepositoryFactory";
+import PlaceOrderInput from "../../src/application/place-order/PlaceOrderInput";
 import ZipcodeCalculatorAPIMemory from "../../src/infra/gateway/memory/ZipcodeCalculatorAPIMemory";
+import GetOrder from "../../src/application/get-order/GetOrder";
+import DatabaseRepositoryFactory from "../../src/infra/factory/DatabaseRepositoryFactory";
+import RepositoryFactory from "../../src/domain/factory/RepositoryFactory";
+import ZipcodeCalculatorAPI from "../../src/domain/gateway/ZipcodeCalculatorAPI";
 
-describe("GetOrder", () => {
-  let zipcodeCalculator: ZipcodeCalculatorAPI;
-  let placeOrder: PlaceOrder;
-  let getOrder: GetOrder;
-  let databaseRepositoryFactory: DatabaseRepositoryFactory;
+let repositoryFactory: RepositoryFactory;
+let zipcodeCalculator: ZipcodeCalculatorAPI;
 
-  beforeEach(async () => {
-    databaseRepositoryFactory = new MemoryRepositoryFactory();
-    zipcodeCalculator = new ZipcodeCalculatorAPIMemory();
-    placeOrder = new PlaceOrder(databaseRepositoryFactory, zipcodeCalculator);
-    getOrder = new GetOrder(databaseRepositoryFactory);
-    const stockEntryRepository = databaseRepositoryFactory.createStockEntryRepository();
+beforeEach(async function () {
+    repositoryFactory = new DatabaseRepositoryFactory();
+    const orderRepository = repositoryFactory.createOrderRepository();
+    await orderRepository.clean();
+    const stockEntryRepository = repositoryFactory.createStockEntryRepository();
     await stockEntryRepository.clean();
-  });
+    zipcodeCalculator = new ZipcodeCalculatorAPIMemory();
+});
 
-  test("Should to get a purchase order", async () => {
-    const input = {
-      cpf: "778.278.412-36",
-      zipcode: "37800-000",
-      items: [
-        { id: 1, quantity: 2 },
-        { id: 2, quantity: 1 },
-        { id: 3, quantity: 3 },
-      ],
-      coupon: "VALE20",
-    };
+test("Deve consultar um pedido", async function () {
+    const input = new PlaceOrderInput({
+        cpf: "778.278.412-36",
+        zipcode: "11.111-11",
+        items: [
+            { idItem: 1, quantity: 2},
+            { idItem: 2, quantity: 1},
+            { idItem: 3, quantity: 3}
+        ],
+        coupon: "VALE20"
+    });
+    const placeOrder = new PlaceOrder(repositoryFactory, zipcodeCalculator);
     const output = await placeOrder.execute(input);
+    const getOrder = new GetOrder(repositoryFactory);
     const getOrderOutput = await getOrder.execute(output.code);
     expect(getOrderOutput.total).toBe(5982);
-  });
 });

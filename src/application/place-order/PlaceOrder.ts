@@ -1,33 +1,30 @@
-import DatabaseRepositoryFactory from "../../domain/factory/DatabaseRepositoryFactory";
-import ZipcodeCalculatorAPI from "../../domain/gateway/ZipcodeCalculatorAPI";
-import OrderCreator from "../../domain/service/OrderCreator";
 import PlaceOrderInput from "./PlaceOrderInput";
 import PlaceOrderOutput from "./PlaceOrderOutput";
+import ZipcodeCalculatorAPI from "../../domain/gateway/ZipcodeCalculatorAPI";
+import ZipcodeCalculatorAPIMemory from "../../infra/gateway/memory/ZipcodeCalculatorAPIMemory";
+import RepositoryFactory from "../../domain/factory/RepositoryFactory";
+import OrderCreator from "../../domain/service/OrderCreator";
 
 export default class PlaceOrder {
-  zipcodeCalculator: ZipcodeCalculatorAPI;
-  databaseRepositoryFactory: DatabaseRepositoryFactory;
+    zipcodeCalculator: ZipcodeCalculatorAPIMemory;
+    repositoryFactory: RepositoryFactory;
 
-  constructor(
-    databaseRepositoryFactory: DatabaseRepositoryFactory,
-    zipcodeCalculator: ZipcodeCalculatorAPI
-  ) {
-    this.databaseRepositoryFactory = databaseRepositoryFactory;
-    this.zipcodeCalculator = zipcodeCalculator;
-  }
+    constructor (repositoryFactory: RepositoryFactory, zipcodeCalculator: ZipcodeCalculatorAPI) {
+        this.repositoryFactory = repositoryFactory;
+        this.zipcodeCalculator = zipcodeCalculator;
+    }
 
-  async execute(input: PlaceOrderInput): Promise<PlaceOrderOutput> {
-    const orderService = new OrderCreator(
-      this.databaseRepositoryFactory,
-      this.zipcodeCalculator
-    );
-    const order = await orderService.create(input);
-    const total = order.getTotal();
-    return {
-      code: order.code.value,
-      taxes: order.taxes,
-      total,
-      freight: order.freight,
-    };
-  }
+    // Registry
+    // DI
+    async execute (input: PlaceOrderInput): Promise<PlaceOrderOutput> {
+        const orderService = new OrderCreator(this.repositoryFactory, this.zipcodeCalculator);
+        const order = await orderService.create(input);
+        const total = order.getTotal();
+        return new PlaceOrderOutput({
+            freight: order.freight,
+            taxes: order.taxes,
+            code: order.code.value,
+            total
+        });
+    }
 }

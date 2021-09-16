@@ -1,22 +1,17 @@
 import PgPromiseDatabase from "../../src/infra/database/PgPromiseDatabase";
 
-describe("PgPromiseDatabase", () => {
-  let pgPromiseDatabase: PgPromiseDatabase;
+let pgPromiseDatabase: PgPromiseDatabase;
 
-  beforeAll(() => {
+beforeEach(async function () {
     pgPromiseDatabase = PgPromiseDatabase.getInstance();
-  });
+});
 
-  test("Should connect to the database and list the items", async () => {
-    const items = await pgPromiseDatabase.many("select * from ccca.item", []);
-    expect(items).toHaveLength(3);
-  });
+test("Deve conectar no banco de dados e listar os itens", async function () {
+    const itens = await pgPromiseDatabase.many("select * from ccca.item", []);
+    expect(itens).toHaveLength(3);
+});
 
-  test("Should connect to the database and list one item", async () => {
-    const item = await pgPromiseDatabase.one(
-      "select * from ccca.item where id = $1",
-      [1]
-    );
+test("Deve conectar no banco de dados e pegar um item", async function () {
+    const item = await pgPromiseDatabase.one("select * from ccca.item where id = $1", [1]);
     expect(item.description).toBe("Guitarra");
-  });
 });

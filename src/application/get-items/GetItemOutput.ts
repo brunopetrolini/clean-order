@@ -1,4 +1,4 @@
-export default class Item {
+export default class GetItemOutput {
     id: number;
     description: string;
     price: number;
@@ -15,13 +15,5 @@ export default class Item {
         this.height = height;
         this.length = length;
         this.weight = weight;
-    }
-
-    getVolume() {
-        return this.width/100 * this.height/100 * this.length/100;
-    }
-
-    getDensity() {
-        return this.weight / this.getVolume();
     }
 }

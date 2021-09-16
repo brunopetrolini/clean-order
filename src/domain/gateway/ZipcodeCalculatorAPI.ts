@@ -1,3 +1,3 @@
 export default interface ZipcodeCalculatorAPI {
-  calculate(zipcodeA: string, zipcodeB: string): number;
+    calculate(zipcodeA: string, zipcodeB: string): number;
 }

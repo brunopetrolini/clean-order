@@ -1,15 +1,15 @@
 export default class OrderItem {
-  id: number;
-  price: number;
-  quantity: number;
+    idItem: number;
+    price: number;
+    quantity: number;
 
-  constructor(id: number, price: number, quantity: number) {
-    this.id = id;
-    this.price = price;
-    this.quantity = quantity;
-  }
+    constructor (idItem: number, price: number, quantity: number) {
+        this.idItem = idItem;
+        this.price = price;
+        this.quantity = quantity;
+    }
 
-  getItemTotal(): number {
-    return this.price * this.quantity;
-  }
+    getTotal () {
+        return this.price * this.quantity;
+    }
 }

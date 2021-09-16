@@ -1,4 +1,4 @@
-import DatabaseRepositoryFactory from "../../domain/factory/DatabaseRepositoryFactory";
+import RepositoryFactory from "../../domain/factory/RepositoryFactory";
 import CouponRepository from "../../domain/repository/CouponRepository";
 import ItemRepository from "../../domain/repository/ItemRepository";
 import OrderRepository from "../../domain/repository/OrderRepository";
@@ -10,26 +10,25 @@ import OrderRepositoryMemory from "../repository/memory/OrderRepositoryMemory";
 import StockEntryRepositoryMemory from "../repository/memory/StockEntryRepositoryMemory";
 import TaxTableRepositoryMemory from "../repository/memory/TaxTableRepositoryMemory";
 
-export default class MemoryRepositoryFactory
-  implements DatabaseRepositoryFactory
-{
-  createItemRepository(): ItemRepository {
-    return new ItemRepositoryMemory();
-  }
+export default class MemoryRepositoryFactory implements RepositoryFactory {
 
-  createCouponRepository(): CouponRepository {
-    return new CouponRepositoryMemory();
-  }
+    createItemRepository(): ItemRepository {
+        return new ItemRepositoryMemory();
+    }
 
-  createOrderRepository(): OrderRepository {
-    return OrderRepositoryMemory.getInstance();
-  }
+    createCouponRepository(): CouponRepository {
+        return new CouponRepositoryMemory();
+    }
 
-  createTaxTableRepository(): TaxTableRepository {
-    return new TaxTableRepositoryMemory();
-  }
+    createOrderRepository(): OrderRepository {
+        return OrderRepositoryMemory.getInstance();
+    }
 
-  createStockEntryRepository(): StockEntryRepository {
-    return new StockEntryRepositoryMemory();
-  }
+    createTaxTableRepository(): TaxTableRepository {
+        return new TaxTableRepositoryMemory();
+    }
+
+    createStockEntryRepository(): StockEntryRepository {
+        return new StockEntryRepositoryMemory();
+    }
 }
